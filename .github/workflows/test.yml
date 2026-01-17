@@ -1,0 +1,52 @@
+name: Test Bilibili-Rater
+on:
+  workflow_call
+
+jobs:
+  test_py312:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v6
+        - name: Set up Python3.12
+          uses: actions/setup-python@v6
+          with:
+            python-version: "3.12"
+        - name: setup python
+          run: |
+            pip install -r requirements.txt
+            pip install pytest
+        - name: test running
+          run: |
+            pytest .
+
+  test_py310:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v6
+        - name: Set up Python3.10
+          uses: actions/setup-python@v6
+          with:
+            python-version: "3.10"
+        - name: setup python
+          run: |
+            pip install -r requirements.txt
+            pip install pytest
+        - name: test running
+          run: |
+            pytest .
+
+  test_py311:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v6
+        - name: Set up Python3.11
+          uses: actions/setup-python@v6
+          with:
+            python-version: "3.11"
+        - name: setup python
+          run: |
+            pip install -r requirements.txt
+            pip install pytest
+        - name: test running
+          run: |
+            pytest .

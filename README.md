@@ -1,2 +1,2 @@
-# bilibili-rater
-为bilibili上的影视资源自动获取imdb评分
+# bilbili-rater
+在Bilibili的视频下面自动评论影视节目评分
