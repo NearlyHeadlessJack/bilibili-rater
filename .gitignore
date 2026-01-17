@@ -26,6 +26,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+main.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -51,6 +52,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+.bilibiliratercache/
 
 # Translations
 *.mo
@@ -201,6 +203,7 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
 
 # Marimo
 marimo/_static/
