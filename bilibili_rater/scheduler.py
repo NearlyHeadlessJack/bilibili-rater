@@ -38,7 +38,7 @@ class Scheduler:
 
     def add_job(self, rater: BilibiliRater):
         job_num = len(self._scheduler.get_jobs())
-        logging.debug(f"目前共运行{job_num}个任务")
+        logging.info(f"目前共运行{job_num}个任务")
         logging.info(f"添加任务: {rater.job_name}")
 
         self._scheduler.add_job(
