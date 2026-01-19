@@ -5,8 +5,7 @@
 # datetime： 2026/1/17 00:40
 # ide： PyCharm
 # file: bilibili_fetcher.py
-import asyncio
-from bilibili_api import video, Credential, comment, user
+from bilibili_api import video, user
 import logging
 from bilibili_rater.exceptions import DescHandlerError
 

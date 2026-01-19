@@ -5,14 +5,12 @@
 # datetime： 2026/1/17 11:27
 # ide： PyCharm
 # file: _scheduler.py
-import asyncio
-import pytz
+import asyncio, logging, pytz
 from datetime import datetime, timedelta
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
 from apscheduler.jobstores.memory import MemoryJobStore
 from .bilibili_rater import BilibiliRater
-import logging
 
 
 class Scheduler:
