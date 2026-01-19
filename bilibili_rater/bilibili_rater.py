@@ -5,7 +5,7 @@
 # datetime： 2026/1/16 04:12
 # ide： PyCharm
 # file: bilibili_rater.py
-import logging, os
+import logging
 from .imdb import ImdbFetcher
 from bilibili_api import Credential
 from .bilibili import BilibiliFetcher, BilibiliComment

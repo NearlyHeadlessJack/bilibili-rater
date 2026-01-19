@@ -5,12 +5,11 @@
 # datetime： 2026/1/17 01:44
 # ide： PyCharm
 # file: bilibili_comment.py
-from bilibili_api import Credential, video, comment
-import asyncio
+from bilibili_api import Credential, comment
 from bilibili_rater.exceptions import DescHandlerError
-import logging
-import os
 from bilibili_rater.cache import Cache
+import logging, os
+
 
 
 class BilibiliComment:
