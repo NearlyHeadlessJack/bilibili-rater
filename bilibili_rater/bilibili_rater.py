@@ -68,6 +68,10 @@ class BilibiliRater:
         )
 
     async def _run_fetch_new_video_desc(self):
+        """
+        获取最新视频的简介并解析信息
+        :return: 最新视频的季、集信息
+        """
         latest_video = await BilibiliFetcher(uploader=self._uploader).fetch()
         logging.debug(f"最新视频简介：{repr(latest_video['desc'])}")
         logging.debug(f"最新视频BVID: {latest_video['bvid']}")
@@ -91,6 +95,7 @@ class BilibiliRater:
 
     async def run(self):
         try:
+            # 获取up主最新视频信息
             s, e, bvid = await self._run_fetch_new_video_desc()
             logging.info(
                 f"解析到节目为：{self._resource_cn_name} 第{s}季 第{e}集，BV号：{bvid}"
@@ -99,8 +104,9 @@ class BilibiliRater:
             if self._cache.use_cache(bvid=bvid):
                 logging.info("缓存命中，本次更新已跳过")
                 return
-
+            # 搜刮imdb信息
             imdb_msg = self._imdb_fetcher.fetch(season=s, episode=e)
+            # 创建评论文本
             msg = self._commenter.create_comment(
                 s=s,
                 e=e,
@@ -108,6 +114,7 @@ class BilibiliRater:
                 title=imdb_msg["title"],
                 is_show_title=self._is_show_title,
             )
+            # 发送评论
             await self._commenter.post_comment(bvid=bvid, msg=msg, cache=self._cache)
 
         except DescHandlerError as ee:

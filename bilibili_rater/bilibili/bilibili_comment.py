@@ -31,9 +31,11 @@ class BilibiliComment:
         msg3 = f"本集imdb评分为{rate}。"
         if is_show_title:
             msg = msg1 + msg2 + msg3
+            logging.info(f"准备发送评论: {msg}")
             return msg
         else:
             msg = msg1 + msg3
+            logging.info(f"准备发送评论: {msg}")
             return msg
 
     async def post_comment(self, bvid: str, msg: str, cache:Cache):
