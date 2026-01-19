@@ -1,5 +1,4 @@
 import unittest
-import asyncio
 from bilibili_api import video
 
 class MyTestCase(unittest.TestCase):

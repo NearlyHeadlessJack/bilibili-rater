@@ -5,7 +5,9 @@
 # datetime： 2026/1/17 11:27
 # ide： PyCharm
 # file: _scheduler.py
-import asyncio, logging, pytz
+import asyncio
+import logging
+import pytz
 from datetime import datetime, timedelta
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
@@ -35,19 +37,21 @@ class Scheduler:
         self._now = datetime.now()
 
     def add_job(self, rater: BilibiliRater):
-        logging.info(f"添加任务: {rater.job_name}")
         job_num = len(self._scheduler.get_jobs())
+        logging.debug(f"目前共运行{job_num}个任务")
+        logging.info(f"添加任务: {rater.job_name}")
+
         self._scheduler.add_job(
             rater.run,
             "interval",
-            seconds=rater._seconds,
+            seconds=rater.get_interval(),
             start_date=self._now + timedelta(seconds=20 * job_num),
             id="bilibili_rater_" + str(job_num),
             replace_existing=True,
         )
 
     async def run_forever(self):
-        logging.info(f"开始循环运行")
+        logging.info("开始循环运行")
         self._scheduler.start()
         try:
             await asyncio.Event().wait()

@@ -123,3 +123,6 @@ class BilibiliRater:
         except Exception as e:
             logging.error(f"发生未知错误：{e}")
             return
+
+    def get_interval(self)->int:
+        return self._seconds

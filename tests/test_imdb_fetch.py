@@ -3,7 +3,7 @@ import requests
 
 class MyTestCase(unittest.TestCase):
     def test_imdb(self):
-        url = f"http://www.omdbapi.com/?apikey=123&i=123&Season=123"
+        url = "http://www.omdbapi.com/?apikey=123&i=123&Season=123"
         response = requests.get(url).json()
         self.assertEqual(response["Error"], "Invalid API key!")  # add assertion here
 

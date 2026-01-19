@@ -8,7 +8,8 @@
 from bilibili_api import Credential, comment
 from bilibili_rater.exceptions import DescHandlerError
 from bilibili_rater.cache import Cache
-import logging, os
+import logging
+import os
 
 
 

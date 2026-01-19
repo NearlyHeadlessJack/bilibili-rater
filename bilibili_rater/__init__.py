@@ -7,7 +7,8 @@
 # file: __init__.py
 from .bilibili_rater import BilibiliRater
 from .handler import *
-import os, logging
+import os
+import logging
 from .scheduler import Scheduler
 
 try:
