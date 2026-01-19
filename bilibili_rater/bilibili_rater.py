@@ -109,12 +109,6 @@ class BilibiliRater:
                 is_show_title=self._is_show_title,
             )
             await self._commenter.post_comment(bvid=bvid, msg=msg)
-            try:
-                if os.environ.get("IS_DEBUG") == "1":
-                    logging.debug("debug模式，不更新缓存")
-            except KeyError:
-                self._cache.update_cache(bvid=bvid)
-                logging.debug(f"更新缓存, bvid: {bvid}")
 
         except DescHandlerError as ee:
             logging.error(f"发生错误:{ee}，本次更新已跳过")

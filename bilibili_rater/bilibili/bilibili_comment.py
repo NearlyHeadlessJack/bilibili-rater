@@ -10,6 +10,7 @@ import asyncio
 from bilibili_rater.exceptions import DescHandlerError
 import logging
 import os
+from bilibili_rater.cache import Cache
 
 
 class BilibiliComment:
@@ -35,7 +36,7 @@ class BilibiliComment:
             msg = msg1 + msg3
             return msg
 
-    async def post_comment(self, bvid: str, msg: str):
+    async def post_comment(self, bvid: str, msg: str, cache:Cache):
         logging.info("正在发送评论")
         try:
             is_debug = os.environ.get("IS_DEBUG")
@@ -53,6 +54,10 @@ class BilibiliComment:
                 type_=comment.CommentResourceType.VIDEO,
             )
             logging.info("评论发送成功！", resp)
+            logging.debug(f"更新缓存, bvid: {bvid}")
+            cache.update_cache(bvid=bvid)
+            logging.info(f"缓存更新成功, bvid: {bvid}")
+
         except Exception as e:
             logging.error(f"评论发送失败，错误信息：{e}")
             raise DescHandlerError(f"评论发送失败，错误信息：{e}")
