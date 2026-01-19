@@ -108,7 +108,7 @@ class BilibiliRater:
                 title=imdb_msg["title"],
                 is_show_title=self._is_show_title,
             )
-            await self._commenter.post_comment(bvid=bvid, msg=msg)
+            await self._commenter.post_comment(bvid=bvid, msg=msg, cache=self._cache)
 
         except DescHandlerError as ee:
             logging.error(f"发生错误:{ee}，本次更新已跳过")
