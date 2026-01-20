@@ -44,8 +44,15 @@ class BilibiliComment:
             is_debug = os.environ.get("IS_DEBUG")
         except KeyError:
             is_debug = "0"
+        try:
+            is_sd_msg = os.environ.get("IS_SD_MSG")
+        except KeyError:
+            is_sd_msg = "0"
 
-        if is_debug == "1":
+
+        if is_debug == "1" and is_sd_msg == "1":
+            logging.debug("debug模式，但是发送评论")
+        elif is_debug == "1" and is_sd_msg != "1":
             logging.debug("debug模式，不发送评论")
             return
         try:
