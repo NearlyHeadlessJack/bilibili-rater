@@ -28,7 +28,7 @@ if _is_debug == "1":
     home_dir = Path.home()
     log_dir = home_dir / ".bilibiliraterlog"
     log_dir.mkdir(exist_ok=True)
-    log_file_path = log_dir / f"log_{current_time}.log"
+    log_file_path = log_dir / f"bilibili-rater_{current_time}.log"
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
