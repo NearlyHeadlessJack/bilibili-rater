@@ -10,7 +10,6 @@ from .handler import *
 import os
 import sys
 import logging
-from .scheduler import Scheduler
 import datetime
 from pathlib import Path
 
@@ -51,7 +50,6 @@ __all__ = [
     "DotHandler",
     "NormalLetterHandler",
     "OnlyNumberHandler",
-    "Scheduler",
 ]
 
 __version__ = "0.1.0"
