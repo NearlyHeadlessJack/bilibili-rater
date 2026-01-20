@@ -30,7 +30,7 @@ def get_imdb_rating(
     for episode in response["Episodes"]:
         if episode["Episode"] == str(_episode):
             logging.info(
-                f"找到目标资源imdb信息: S{season}E{episode["Episode"]} 标题: {episode['Title']} 评分: {episode['imdbRating']}"
+                f"找到目标资源imdb信息: S{season}E{episode['Episode']} 标题: {episode['Title']} 评分: {episode['imdbRating']}"
             )
             if is_show_title:
                 return {"title": episode["Title"], "rating": episode["imdbRating"]}

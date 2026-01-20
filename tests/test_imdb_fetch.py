@@ -1,6 +1,7 @@
 import unittest
 import requests
 
+
 class MyTestCase(unittest.TestCase):
     def test_imdb(self):
         url = "http://www.omdbapi.com/?apikey=123&i=123&Season=123"
@@ -8,5 +9,5 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(response["Error"], "Invalid API key!")  # add assertion here
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
