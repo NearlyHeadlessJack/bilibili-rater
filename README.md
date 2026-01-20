@@ -30,7 +30,7 @@ pip install -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple bilibili-rat
 安装测试版本  
 ![PyPI - Version](https://img.shields.io/pypi/v/bilibili-rater?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&label=TestPyPI)
 
-```commandline
+```shell
 pip install --index-url https://test.pypi.org/simple/ bilibili-rater==0.x.x.dev13
 ```
 
@@ -55,10 +55,11 @@ bilibili-rater 适用于在影视搬运类up主视频下，获取视频对应的
 ## FAQ
 
 + 本项目可以自动识别某个视频是哪个节目，以及具体某一季、某一集吗？
-    + 不可以，是哪个节目需要提前设定`resource_id`。“季-集”信息需要视频上传者提供，本项目只提供从视频信息中抓取对应“季-集”信息的抓取方法。
-用户也可以设置自定义的抓取方法。  
+    + 不可以，是哪个节目需要提前设定`resource_id`。“季-集”信息需要视频上传者提供，本项目只提供从视频信息中抓取对应“季-集”信息的抓取方法
+`handler`及其抽象类`class SeasonEpisodeHandler(ABC)`。
+用户可以设置自定义抓取方法。  
 + imdb信息是自动获取的吗？ 
-    + 是，首先从b站视频获取到“季-集”信息后，会自动获取imdb信息。
+    + 是的，首先从b站视频获取到“季-集”信息后，会自动获取imdb信息。
 + 可以使用豆瓣评分吗？
     + 不可以，因为豆瓣没有单集评分功能。
 
@@ -112,6 +113,8 @@ job = bilibili_rater.BilibiliRater(
 
 asyncio.run(job.run())
 ```
+其中，`handler`的设置详情请见[自定义handler](#自定义handler)。
+
 
 ## 5. 运行脚本或设置自动化
 可以直接运行脚本  
@@ -158,6 +161,81 @@ crontab -e
 这样两个脚本岔开运行，减少了被封禁的风险。
 
 # 自定义`handler`
+bilibili-rater通过`handler`来抓取视频对应的“季-集”信息。  
+
+`handler`本质是一个字符串解析器，将字符串中包含的“季-集”信息解析出来。
+
+`handler`属于抽象类`SeasonEpisodeHandler`，其原型为：
+```python
+from abc import ABC
+class SeasonEpisodeHandler(ABC):
+    @staticmethod
+    def handle(v:dict ,desc: str) -> tuple[int, int]:
+        pass
+```
+其中`v`为爬虫到的视频信息，包含标题、简介、标签信息。    
+`desc`为经过处理视频简介，只包含简介第一行的信息。 
+`handler`返回一个元组，元组的第一个元素为“季”信息，第二个元素为“集”信息。  
+
+bilibili-rater已实现三种handler，可以直接使用:  
+
+| handler                       | 说明                    | 使用情况                      |
+|-------------------------------|-----------------------|---------------------------|
+| `OnlyNumberHandler.handler`   | 简介第一行，只使用数字来标注“季-集”信息 | 简介第一行为"3-2","10-5","6-14" |
+| `NormalLetterHandler.handler` | 简介第一行，使用"S"和"E"字母来标注  | "S08E12","S1E09","S13E15" |
+| `DotHandler.handler`          | 简介第一行，使用"."来分割"季-集"信息 | "1.2","8.5","14.3"        |  
 
 
+## 自己实现的`handler`
+注意，在解析失败情况下也需要返回元组`(0,0)`，程序会略过本次更新，否则会崩溃。
 
+```python
+import bilibili_rater
+from bilibili_api import Credential
+import asyncio
+
+# 继承SeasonEpisodeHandler
+class MyCustomHandler(bilibili_rater.SeasonEpisodeHandler): 
+    # 实现handle方法
+    @staticmethod
+    def handle(v:dict, desc: str) -> tuple[int, int]:
+      # 处理逻辑
+      #
+      #
+      if success:
+          # 成功返回结果
+          return 3,6
+      else:
+          # 失败返回0,0
+          return 0,0
+
+        
+credential = Credential(
+    sessdata="",
+    bili_jct="",
+    buvid3="",
+    buvid4="",
+    dedeuserid="",
+)
+
+
+job = bilibili_rater.BilibiliRater(
+    uploader_uid=591331248,  # up主uid
+    credential=credential,  
+    handler=MyCustomHandler.handle,  # “季-集”信息的解包方式
+    resource_id="tt0397306",  # 根节目的imdb编号
+    api_key="",    # omdb网站的api key 注意需要点击邮件中的链接激活api key
+    resource_cn_name="美国老爹",  #  最终显示在评论中的节目中文名
+    is_show_title=True,   #  是否在评论中显示单集标题
+)
+
+asyncio.run(job.run())
+```
+
+## 形参说明
+
+- `v:dict`，类型为字典。
+  - `v["title"]`，类型为字符串，为视频标题。
+  - `v["desc"]`，类型为字符串，为视频简介(完整简介)。
+  - `v["tags"]`，类型为列表，为视频标签。
+- `desc: str`，类型为字符串，仅包含简介第一行内容。
