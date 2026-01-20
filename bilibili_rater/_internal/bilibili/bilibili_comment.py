@@ -8,8 +8,8 @@
 from bilibili_api import Credential, comment
 from bilibili_rater.exceptions import DescHandlerError
 from bilibili_rater.cache import Cache
-import logging, os
-
+import logging
+import os
 
 
 class BilibiliComment:
@@ -37,14 +37,20 @@ class BilibiliComment:
             logging.info(f"准备发送评论: {msg}")
             return msg
 
-    async def post_comment(self, bvid: str, msg: str, cache:Cache):
+    async def post_comment(self, bvid: str, msg: str, cache: Cache):
         logging.info("正在发送评论")
         try:
             is_debug = os.environ.get("IS_DEBUG")
         except KeyError:
             is_debug = "0"
+        try:
+            is_sd_msg = os.environ.get("IS_SD_MSG")
+        except KeyError:
+            is_sd_msg = "0"
 
-        if is_debug == "1":
+        if is_debug == "1" and is_sd_msg == "1":
+            logging.debug("debug模式，但是发送评论")
+        elif is_debug == "1" and is_sd_msg != "1":
             logging.debug("debug模式，不发送评论")
             return
         try:

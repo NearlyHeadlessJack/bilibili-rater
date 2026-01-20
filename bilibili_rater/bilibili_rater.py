@@ -6,9 +6,9 @@
 # ide： PyCharm
 # file: bilibili_rater.py
 import logging
-from .imdb import ImdbFetcher
+from ._internal.imdb import ImdbFetcher
 from bilibili_api import Credential
-from .bilibili import BilibiliFetcher, BilibiliComment
+from ._internal.bilibili import BilibiliFetcher, BilibiliComment
 from .exceptions import DescHandlerError
 from .cache import Cache
 
@@ -23,7 +23,6 @@ class BilibiliRater:
         api_key: str,
         resource_cn_name: str,
         is_show_title: bool,
-        seconds: int = 60 * 15,
     ):
         """
         :param uploader_uid: 被跟踪up主的uid
@@ -33,7 +32,6 @@ class BilibiliRater:
         :param api_key: OMDB API KEY
         :param resource_cn_name: 节目中文名，用于评论区
         :param is_show_title: 是否显示单集标题(注意合规)
-        :param seconds: 每隔多少秒运行一次
         """
 
         logging.debug("创建BilibiliRater实例")
@@ -61,11 +59,13 @@ class BilibiliRater:
         )
         self._cache = Cache(uid=self._uploader, handler_name=handler.__qualname__)
 
-        self._seconds = seconds
-
         self.job_name = (
             f"{self._uploader}-{self._handler.__qualname__}-{self._resource_cn_name}"
         )
+        logging.debug(f"is_show_title:{self._is_show_title}")
+        logging.debug(f"resource_cn_name:{self._resource_cn_name}")
+        logging.debug(f"uid:{self._uploader}")
+        logging.debug(f"handler: {self._handler.__qualname__}")
 
     async def _run_fetch_new_video_desc(self):
         """

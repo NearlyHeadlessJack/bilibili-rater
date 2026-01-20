@@ -15,7 +15,6 @@ authors = [
 license = {text = "GPLv3"}
 urls = {Homepage = "https://github.com/NearlyHeadlessJack/bilibili-rater"}
 dependencies = [
-    "apscheduler>=3.11.2",
     "bilibili-api-python>=17.4.1",
     "httpx>=0.28.1",
     "pytz>=2025.2",
@@ -41,3 +40,22 @@ name = "testpypi"
 url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"
 explicit = true
+
+[tool.hatch.build]
+exclude = [
+    "**/__pycache__/",
+    "__pycache__/",
+
+    "**/*.pyc",
+    "*.pyc",
+
+    "*.pyo",
+    "*.pyd",
+    ".pyc",
+    "main.py",
+    ".github/",
+    "tests/",
+    "docs/",
+    "changelogs/",
+
+]

@@ -1,6 +1,6 @@
 import unittest
-import asyncio
 from bilibili_api import video
+
 
 class MyTestCase(unittest.TestCase):
     async def test_bilibili_fetch(self):
@@ -9,5 +9,5 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(video_info["desc"], "明年BML我们再见！")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
