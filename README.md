@@ -44,7 +44,7 @@ bilibili-rater 适用于在影视搬运类up主视频下，获取视频对应的
 <img src="docs/assets/example_1.png" width="300px" alt="示例">
 
 ## Feature
-- 自定义“季-集”信息的获取方式，可通过视频标题、简介、标签等信息来获取。
+- 自定义“季-集”信息的获取方式，可通过视频简介信息来获取。
 - 基于[bilibili-api](https://github.com/Nemo2011/bilibili-api)开发。
 - 提供多种imdb数据获取方式。
 
@@ -173,7 +173,7 @@ class SeasonEpisodeHandler(ABC):
     def handle(v:dict ,desc: str) -> tuple[int, int]:
         pass
 ```
-其中`v`为爬虫到的视频信息，包含标题、简介、标签信息。    
+其中      
 `desc`为经过处理视频简介，只包含简介第一行的信息。 
 `handler`返回一个元组，元组的第一个元素为“季”信息，第二个元素为“集”信息。  
 
@@ -198,7 +198,7 @@ import asyncio
 class MyCustomHandler(bilibili_rater.SeasonEpisodeHandler): 
     # 实现handle方法
     @staticmethod
-    def handle(v:dict, desc: str) -> tuple[int, int]:
+    def handle(desc: str) -> tuple[int, int]:
       # 处理逻辑
       #
       #
@@ -234,8 +234,4 @@ asyncio.run(job.run())
 
 ## 形参说明
 
-- `v:dict`，类型为字典。
-  - `v["title"]`，类型为字符串，为视频标题。
-  - `v["desc"]`，类型为字符串，为视频简介(完整简介)。
-  - `v["tags"]`，类型为列表，为视频标签。
 - `desc: str`，类型为字符串，仅包含简介第一行内容。
