@@ -106,6 +106,7 @@ class OmdbFetcher(ImdbFetcher):
                 logging.error(f"获取IMDB信息过程中发生错误：{e}")
                 raise DescHandlerError(f"获取IMDB信息过程中发生错误：{e}")
         else:
+            logging.warning("当前版本OMDB暂不支持获取排名，将不会输出排名")
             try:
                 result = omdb_get_imdb_rating_with_ranking(
                     resource_id, season, episode, self.api_key
