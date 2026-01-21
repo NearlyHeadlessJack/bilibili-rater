@@ -23,19 +23,44 @@ class BilibiliComment:
         self.cn_name = resource_cn_name
 
     def create_comment(
-        self, s: int, e: int, rate: str, title=None, is_show_title=None
+        self,
+        s: int,
+        e: int,
+        rate: str,
+        title=None,
+        ranking=None,
+        is_show_title=False,
+        is_show_ranking=False,
     ) -> str:
         msg1 = f"本集是《{self.cn_name}》第{s}季，第{e}集。"
-        msg2 = f"标题为{title}。"
+        if title is None:
+            msg2 = ""
+        else:
+            msg2 = f"标题为{title}。"
         msg3 = f"本集imdb评分为{rate}。"
-        if is_show_title:
+        if ranking is None:
+            msg4 = ""
+        else:
+            msg4 = f"本集在本季的排名为{ranking}。"
+
+        if is_show_title and is_show_ranking:
+            msg = msg1 + msg2 + msg3 + msg4
+            logging.info(f"准备发送评论: {msg}")
+            return msg
+        elif is_show_title and not is_show_ranking:
             msg = msg1 + msg2 + msg3
             logging.info(f"准备发送评论: {msg}")
             return msg
-        else:
+        elif not is_show_title and is_show_ranking:
+            msg = msg1 + msg3 + msg4
+            logging.info(f"准备发送评论: {msg}")
+            return msg
+        elif not is_show_title and not is_show_ranking:
             msg = msg1 + msg3
             logging.info(f"准备发送评论: {msg}")
             return msg
+        logging.error("评论准备错误")
+        raise DescHandlerError("评论准备错误")
 
     async def post_comment(self, bvid: str, msg: str, cache: Cache):
         logging.info("正在发送评论")

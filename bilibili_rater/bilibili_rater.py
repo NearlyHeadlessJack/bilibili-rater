@@ -6,10 +6,10 @@
 # ide： PyCharm
 # file: bilibili_rater.py
 import logging
-from ._internal.imdb import ImdbFetcher
 from bilibili_api import Credential
 from ._internal.bilibili import BilibiliFetcher, BilibiliComment
-from .exceptions import DescHandlerError
+from ._internal.imdb import ImdbFetcher
+from .exceptions import DescHandlerError, ImdbItemNotFound
 from .cache import Cache
 
 
@@ -20,7 +20,7 @@ class BilibiliRater:
         credential: Credential,
         handler,
         resource_id: str,
-        api_key: str,
+        imdb_fetchers: list[ImdbFetcher],
         resource_cn_name: str,
         is_show_title: bool,
     ):
@@ -37,9 +37,6 @@ class BilibiliRater:
         logging.debug("创建BilibiliRater实例")
         self._is_show_title: bool = is_show_title
 
-        self._imdb_fetcher = ImdbFetcher(
-            api_key=api_key, resource_id=resource_id, is_show_title=is_show_title
-        )
         # 上传者uid
         self._uploader: int = uploader_uid
 
@@ -53,6 +50,8 @@ class BilibiliRater:
         self._resource_cn_name: str = resource_cn_name
 
         self._credential: Credential = credential
+
+        self._imdb_fetchers: list[ImdbFetcher] = imdb_fetchers
 
         self._commenter = BilibiliComment(
             credential=self._credential, resource_cn_name=resource_cn_name
@@ -86,12 +85,33 @@ class BilibiliRater:
             raise DescHandlerError
 
     def _fetch_imdb_rating(self, season: int, episode: int):
-        try:
-            rating = self._imdb_fetcher.fetch(season=season, episode=episode)
-            return rating
-        except Exception:
-            logging.error("IMDB获取出错")
-            raise DescHandlerError
+        logging.info(f"准备获取imdb信息，季号:{season},集号:{episode}")
+        for fetcher in self._imdb_fetchers:
+            logging.info(f"使用:{fetcher.__class__} 来获取imdb信息")
+            try:
+                result = fetcher.fetch(
+                    resource_id=self._resource_id, season=season, episode=episode
+                )
+                msg = self._commenter.create_comment(
+                    s=season,
+                    e=episode,
+                    rate=result["rating"],
+                    title=result["title"],
+                    ranking=result["ranking"],
+                    is_show_title=fetcher.is_show_title,
+                    is_show_ranking=fetcher.is_show_ranking,
+                )
+                return msg
+            except ImdbItemNotFound:
+                logging.error(f"未找到该资源imdb信息, 方法:{fetcher.__class__}")
+                continue
+            except Exception as e:
+                logging.error(
+                    f"获取IMDB信息过程中发生不可预料的错误：{e}, 方法:{fetcher.__class__}"
+                )
+                continue
+        logging.error("最终无法获取imdb信息, 结束获取，跳过一次更新")
+        raise DescHandlerError
 
     async def run(self):
         try:
@@ -104,16 +124,9 @@ class BilibiliRater:
             if self._cache.use_cache(bvid=bvid):
                 logging.info("缓存命中，本次更新已跳过")
                 return
-            # 搜刮imdb信息
-            imdb_msg = self._imdb_fetcher.fetch(season=s, episode=e)
-            # 创建评论文本
-            msg = self._commenter.create_comment(
-                s=s,
-                e=e,
-                rate=imdb_msg["rating"],
-                title=imdb_msg["title"],
-                is_show_title=self._is_show_title,
-            )
+
+            # 搜刮imdb信息并创建评论文本
+            msg = self._fetch_imdb_rating(season=s, episode=e)
             # 发送评论
             await self._commenter.post_comment(bvid=bvid, msg=msg, cache=self._cache)
 

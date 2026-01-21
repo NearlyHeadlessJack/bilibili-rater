@@ -16,6 +16,7 @@ import os
 import logging
 import datetime
 from pathlib import Path
+from ._internal.imdb.fetch_imdb import ImdbFetcher, OmdbFetcher
 
 try:
     _is_debug = os.environ["IS_DEBUG"]
@@ -69,6 +70,8 @@ else:
 
 __all__ = [
     "BilibiliRater",
+    "ImdbFetcher",
+    "OmdbFetcher",
     "SeasonEpisodeHandler",
     "DotHandler",
     "NormalLetterHandler",
