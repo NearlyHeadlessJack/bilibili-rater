@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "bilibili-rater"
-version = "0.1.1b1"
+version = "0.1.1b2"
 description = "为在Bilibili上的影视资源自动获取imdb评分"
 readme = "README.md"
 requires-python = ">=3.9"
