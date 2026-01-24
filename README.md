@@ -1,6 +1,6 @@
-![bilibili-rater-logo](docs/assets/logo-bilibili-rater.png)
-
 <div align="center">
+
+<img src="docs/assets/logo-bilibili-rater.png" width="500px" alt="logo">
 
 # bilibili-rater
 
@@ -37,25 +37,25 @@ pip install --index-url https://test.pypi.org/simple/ bilibili-rater==0.x.x.dev1
 ---
 
 ## 简介
-bilibili-rater 适用于在影视搬运类up主视频下, 获取视频对应的节目信息, 并自动评论**季**、**集**、**标题**和**评分**等信息。
+bilibili-rater 适用于在B站搬运的美剧、动画等视频下, 按预置规则获取对应imdb信息, 并自动评论**季**、**集**、**标题**和**评分**等信息。
 
-在设置自动化后, 可定时监控指定up主的最新视频并提供评分信息, 供其他观众参考。
+设置自动化后, 可24h监控指定up主的最新视频并提供评分信息, 供其他观众参考。
 
 <img src="docs/assets/example_1.png" width="300px" alt="示例">
 
 ## Feature
-- 自定义“季-集”信息的获取方式, 可通过视频简介信息来获取。
-- 基于[bilibili-api](https://github.com/Nemo2011/bilibili-api)开发。
+- 自定义“季-集”信息的爬取方式, 可通过视频简介的固定模式来获取。
+- 基于[bilibili-api](https://github.com/Nemo2011/bilibili-api)开发, 对B站的访问高可靠性。
 - 提供多种imdb数据获取方式。(目前仅支持从[OMDB数据库](http://omdbapi.com/)获取, 其它方式开发中)
 
 ## 适合用户
 - 影视搬运类up主本人。
-- 热心观众, 但需要与up主沟通好“季-集”信息获取方式。
+- 热心观众, 但需要与up主沟通好“季-集”信息获取模式。
 
 ## FAQ
 
 + 本项目可以直接识别某个视频是哪个节目, 以及具体某一季、某一集吗？
-    + 不可以, 是哪个节目需要在脚本中设定`resource_id`。“季-集”信息需要视频上传者提供获取方法, 本项目只提供从视频信息中抓取对应“季-集”信息的抓取方法
+    + 不可以, 是哪个节目需要在脚本中设定`resource_id`。“季-集”信息需要视频上传者提供获取模式, 本项目只提供从视频信息中抓取对应“季-集”信息的接口
 `handler`及其抽象类`class SeasonEpisodeHandler(ABC)`。
 用户可以设置自定义抓取方法。  
 + imdb信息是自动获取的吗？ 
@@ -70,9 +70,9 @@ up主通过B站数字`uid`确定, 节目信息通过imdb编号确定。
 我要抓取的节目为[《恶搞之家》](https://www.imdb.com/title/tt0182576/), imdb编号为`tt0182576`。   
 > imdb影视节目的编码一般为`tt`开头。可通过[imdb网站](https://www.imdb.com)对应页面的URL看到。   
 
-**⚠️ 连载节目请获取根节目的imdb代码, 不要用季或者集的imdb代码, 他们是独立的。**  
+**⚠️ 连载节目请获取根节目的imdb代码, 不要使用季或集的imdb代码, 他们是独立的。**  
 
-> 连载节目的根imdb代码可通过在[imdb网站](https://www.imdb.com)搜索节目名, 进入根节目的页面, 通过URL看到。例如《恶搞之家》https://www.imdb.com/title/tt0182576/ 的根imdb编号为`tt0182576`。  
+> 连载节目的根imdb代码可通过[imdb网站](https://www.imdb.com)搜索节目名, 进入根节目的页面, 通过URL看到。例如《恶搞之家》https://www.imdb.com/title/tt0182576/ 的根imdb编号为`tt0182576`。  
 
 ## 2. 获取用于发表评论账号的credentials
 
@@ -81,7 +81,7 @@ up主通过B站数字`uid`确定, 节目信息通过imdb编号确定。
 这里一共需要五个值：`sessdata`, `bili_jct`, `buvid3`, `buvid4`, `dedeuserid`。
 
 ## 3. 创建omdb网站的api key
-- [omdb网站](http://omdbapi.com/apikey.aspx)提供了免费（每日限额1000次）的api, 可以获得imdb的数据。
+- [omdb网站](http://omdbapi.com/apikey.aspx)提供了免费、快速的api, 可以获得imdb的数据。
 - 输入邮箱并提交后, 邮件会收到api key。**请点击邮件中的激活链接, 否则api key无法使用**
 
 
@@ -121,9 +121,9 @@ asyncio.run(job.run())
 ```commandline
 python script.py
 ```
-如果一切正常, 会在最后提示评论发送成功。
+如果一切正常, 会提示评论发送成功。
 
-但是这样, 脚本只会执行一次。
+但是这样, 脚本只会运行一次。
 
 ### 自动化
 
@@ -151,7 +151,7 @@ crontab -e
 
 使用不同的handler可以区分两者, 不至于误将一个节目解析为另一个节目。
 
-此外, 在使用`cron`来调度脚本时, **⚠️请勿设置多个脚本同时运行**, 会极大增加被系统检测的风险, 可能导致账号封禁。
+此外, 在使用`cron`来调度脚本时, **⚠️请勿设置多个脚本在同一时刻运行**, 会极大增加被系统检测的风险, 可能导致账号封禁。
 
 可以这样设置：
 ```shell
@@ -170,7 +170,7 @@ bilibili-rater通过`handler`来抓取视频对应的“季-集”信息。
 from abc import ABC
 class SeasonEpisodeHandler(ABC):
     @staticmethod
-    def handle(v:dict ,desc: str) -> tuple[int, int]:
+    def handle(desc: str) -> tuple[int, int]:
         pass
 ```
 其中      
@@ -202,7 +202,7 @@ class MyCustomHandler(bilibili_rater.SeasonEpisodeHandler):
       # 处理逻辑
       #
       #
-      if success:
+      if True:
           # 成功返回结果
           return 3,6
       else:
