@@ -5,17 +5,16 @@ build-backend = "hatchling.build"
 
 [project]
 name = "bilibili-rater"
-version = "0.1.0"
+version = "0.1.1b2"
 description = "为在Bilibili上的影视资源自动获取imdb评分"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 authors = [
     {name = "Jack Wang", email = "wang@rjack.cn"}
 ]
-license = {text = "GPLv3"}
+license = {file = "LICENSE"}
 urls = {Homepage = "https://github.com/NearlyHeadlessJack/bilibili-rater"}
 dependencies = [
-    "apscheduler>=3.11.2",
     "bilibili-api-python>=17.4.1",
     "httpx>=0.28.1",
     "pytz>=2025.2",
@@ -23,6 +22,7 @@ dependencies = [
 ]
 classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -35,6 +35,28 @@ classifiers = [
     "Topic :: Utilities"
 ]
 
-[tool.black]
-line-length = 88
-target-version = ['py312']
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
+
+[tool.hatch.build]
+exclude = [
+    "**/__pycache__/",
+    "__pycache__/",
+
+    "**/*.pyc",
+    "*.pyc",
+
+    "*.pyo",
+    "*.pyd",
+    ".pyc",
+    "main.py",
+    ".github/",
+    "tests/",
+    "docs/",
+    "changelogs/",
+
+]

@@ -5,8 +5,7 @@
 # datetime： 2026/1/17 00:40
 # ide： PyCharm
 # file: bilibili_fetcher.py
-import asyncio
-from bilibili_api import video, Credential, comment, user
+from bilibili_api import video, user
 import logging
 from bilibili_rater.exceptions import DescHandlerError
 
@@ -52,9 +51,11 @@ async def get_latest_video_desc(uid: int) -> dict:
         logging.info(f"最新视频BV号：{latest_video['bvid']}")
 
         v = video.Video(bvid=latest_video["bvid"])
+        # v = video.Video(bvid="BV1trk7BqEVJ")
         video_info = await v.get_info()
         logging.debug(f"视频简介：{video_info['desc']}")
         return {"desc": video_info["desc"], "bvid": latest_video["bvid"]}
+        # return {"desc": video_info["desc"], "bvid": "BV1trk7BqEVJ"}
 
     except Exception as e:
         logging.error(f"在获取最新视频简介时发生错误：{e}")

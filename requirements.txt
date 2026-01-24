@@ -3,3 +3,4 @@ bilibili-api-python>=17.4.1
 httpx>=0.28.1
 requests>=2.32.5
 pytz>=2025.2
+imdbinfo>=0.6.7
