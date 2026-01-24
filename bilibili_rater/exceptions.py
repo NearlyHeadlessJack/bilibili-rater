@@ -7,3 +7,7 @@
 # file: exceptions.py
 class DescHandlerError(Exception):
     pass
+
+
+class ImdbItemNotFound(Exception):
+    pass
