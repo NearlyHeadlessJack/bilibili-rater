@@ -64,7 +64,7 @@ def omdb_get_imdb_rating_with_ranking(
                 }
 
     except ValueError:
-        logging.error("本季有无法解析的IMDB评分，不提供ranking排名")
+        logging.error("本季有无法解析的IMDB评分, 不提供ranking排名")
         return omdb_get_imdb_rating_no_ranking(
             imdb_id=imdb_id, season=season, _episode=_episode, api=api
         )
