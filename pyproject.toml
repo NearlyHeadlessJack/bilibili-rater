@@ -17,6 +17,7 @@ urls = {Homepage = "https://github.com/NearlyHeadlessJack/bilibili-rater"}
 dependencies = [
     "bilibili-api-python>=17.4.1",
     "httpx>=0.28.1",
+    "imdbinfo>=0.6.7",
     "pytz>=2025.2",
     "requests>=2.32.5",
 ]
