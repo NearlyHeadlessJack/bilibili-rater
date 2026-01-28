@@ -4,11 +4,11 @@
 
 # bilibili-rater
 
-![PyPI - License](https://img.shields.io/pypi/l/bilibili-rater)
-![PyPI - Version](https://img.shields.io/pypi/v/bilibili-rater?color=blue)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/bilibili-rater)
-[![Testing](https://github.com/NearlyHeadlessJack/bilibili-rater/actions/workflows/publish.yml/badge.svg?branch=dev)](https://github.com/NearlyHeadlessJack/bilibili-rater/actions/workflows/publish.yml)
-![GitHub Tag](https://img.shields.io/github/v/tag/NearlyHeadlessJack/bilibili-rater)
+[![PyPI - License](https://img.shields.io/pypi/l/bilibili-rater)](https://github.com/NearlyHeadlessJack/bilibili-rater/blob/main/LICENSE)
+[![PyPI - Version](https://img.shields.io/pypi/v/bilibili-rater?color=blue)](https://pypi.org/project/bilibili-rater/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/bilibili-rater)](https://pypi.org/project/bilibili-rater/)_
+[![Test](https://github.com/NearlyHeadlessJack/bilibili-rater/actions/workflows/Publish.yml/badge.svg?branch=dev)](https://github.com/NearlyHeadlessJack/bilibili-rater/actions/workflows/Publish.yml)
+[![GitHub Tag](https://img.shields.io/github/v/tag/NearlyHeadlessJack/bilibili-rater)](https://github.com/NearlyHeadlessJack/bilibili-rater/tags)
 
 **⚠️使用注意: 请勿使用本项目用于违反法律或违反社区规则的行为, 例如刷屏、辱骂、广告推广等。**  
 
@@ -27,8 +27,8 @@ pip install bilibili-rater
 // 使用清华镜像加速
 pip install -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple bilibili-rater
 ```
-安装开发中版本  
-![PyPI - Version](https://img.shields.io/pypi/v/bilibili-rater?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&label=TestPyPI)
+安装开发版本  
+[![PyPI - Version](https://img.shields.io/pypi/v/bilibili-rater?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&label=TestPyPI)](https://test.pypi.org/project/bilibili-rater/)
 
 ```shell
 pip install --index-url https://test.pypi.org/simple/ bilibili-rater==0.x.x.dev13
@@ -45,8 +45,10 @@ bilibili-rater 适用于在B站搬运的美剧、动画等视频下, 按预置�
 
 ## Feature
 - 自定义“季-集”信息的爬取方式, 可通过视频简介的固定模式来获取。
+- 可以获取当期节目在整季中的评分排名。
 - 基于[bilibili-api](https://github.com/Nemo2011/bilibili-api)开发, 对B站的访问高可靠性。
-- 提供多种imdb数据获取方式。(目前仅支持从[OMDB数据库](http://omdbapi.com/)获取, 其它方式开发中)
+- 提供多种imdb数据获取方式, 支持使用[imdbinfo](https://github.com/tveronesi/imdbinfo)直接从imdb网站进行抓取, 也支持
+使用[omdbapi](http://www.omdbapi.com/)从第三方数据库获取imdb评分信息。
 
 ## 适合用户
 - 影视搬运类up主本人。
@@ -55,11 +57,11 @@ bilibili-rater 适用于在B站搬运的美剧、动画等视频下, 按预置�
 ## FAQ
 
 + 本项目可以直接识别某个视频是哪个节目, 以及具体某一季、某一集吗？
-    + 不可以, 是哪个节目需要在脚本中设定`resource_id`。“季-集”信息需要视频上传者提供获取模式, 本项目只提供从视频信息中抓取对应“季-集”信息的接口
+    + 不可以, 是哪个节目需要在脚本中设定`resource_id`。“季-集”信息需要视频上传者提供获取模式, 本项目只提供从视频简介中抓取对应“季-集”数据的接口
 `handler`及其抽象类`class SeasonEpisodeHandler(ABC)`。
-用户可以设置自定义抓取方法。  
+用户可以设置自定义的模式匹配方法。  
 + imdb信息是自动获取的吗？ 
-    + 是的, 首先从b站视频获取到“季-集”信息后, 会自动获取imdb信息。
+    + 是的, 首先从b站视频获取到“季-集”信息后, 会使用脚本中提供的抓取器(`fetcher`), 自动获取imdb信息。
 + 可以使用豆瓣评分吗？
     + 不可以, 因为豆瓣没有单集评分功能。
 
@@ -70,7 +72,8 @@ up主通过B站数字`uid`确定, 节目信息通过imdb编号确定。
 我要抓取的节目为[《恶搞之家》](https://www.imdb.com/title/tt0182576/), imdb编号为`tt0182576`。   
 > imdb影视节目的编码一般为`tt`开头。可通过[imdb网站](https://www.imdb.com)对应页面的URL看到。   
 
-**⚠️ 连载节目请获取根节目的imdb代码, 不要使用季或集的imdb代码, 他们是独立的。**  
+> [!NOTE]
+> 连载节目请获取**根节目**的imdb代码, 不要使用季或集的imdb代码, 他们是独立的。
 
 > 连载节目的根imdb代码可通过[imdb网站](https://www.imdb.com)搜索节目名, 进入根节目的页面, 通过URL看到。例如《恶搞之家》https://www.imdb.com/title/tt0182576/ 的根imdb编号为`tt0182576`。  
 
@@ -80,7 +83,17 @@ up主通过B站数字`uid`确定, 节目信息通过imdb编号确定。
 
 这里一共需要五个值：`sessdata`, `bili_jct`, `buvid3`, `buvid4`, `dedeuserid`。
 
-## 3. 创建omdb网站的api key
+## 3. 创建imdb信息获取器`fetcher`
+程序运行时需要`fetcher`才能获取imdb信息, 当前版本内置两个`fetcher`, 分别为`DirectFetcher`, `OmdbFetcher`。
+
+| `fetcher`       | 原理                     | 适用情形        |
+|-----------------|------------------------|-------------|
+| `DirectFetcher` | 直接构造请求从imdb官网获取最新信息    | 适用于大多数情况    |
+| `OmdbFetcher`   | 通过第三方数据库omdb提供的api获取信息 | imdb无法进行爬虫时 |
+
+> [!IMPORTANT]
+> `OmdbFetcher`需要提前申请api key。
+
 - [omdb网站](http://omdbapi.com/apikey.aspx)提供了免费、快速的api, 可以获得imdb的数据。
 - 输入邮箱并提交后, 邮件会收到api key。**请点击邮件中的激活链接, 否则api key无法使用**
 
@@ -100,7 +113,10 @@ credential = Credential(
     dedeuserid="",
 )
 
-fetcher1 = bilibili_rater.OmdbFetcher(api_key="myapikey",is_show_title=True) #  是否显示集标题
+
+fetcher_direct = bilibili_rater.DirectFetcher(is_show_ranking=True,is_show_title=True)
+fetcher_omdb = bilibili_rater.OmdbFetcher(api_key="xxxxx",is_show_title=True)
+
 
 job = bilibili_rater.BilibiliRater(
     uploader_uid=591331248,  # up主 uid
@@ -108,12 +124,16 @@ job = bilibili_rater.BilibiliRater(
     handler=bilibili_rater.OnlyNumberHandler.handle,  # “季-集”信息的解包方式
     resource_id="tt0397306",  # 根节目的imdb编号
     resource_cn_name="美国老爹",  #  最终显示在评论中的节目中文名
-    imdb_fetchers=[fetcher1],  # 使用的imdb信息获取器 目前仅支持omdbapi
+    imdb_fetchers=[fetcher_direct, fetcher_omdb],  # 使用的imdb信息获取器
 )
 
 asyncio.run(job.run())
 ```
 其中, `handler`的设置详情请见[自定义handler](#自定义handler)。
+
+`imdb_fetchers`接收一个`fetcher`列表。程序会依次使用列表中的`fetcher`来获取imdb信息。    
+若前一个`fetcher`获取失败, 程序会自动尝试使用下一个`fetcher`。  
+因此建议将`OmdbFetcher`放在最后, 作为最后的获取方式运行。
 
 
 ## 5. 运行脚本或设置自动化
@@ -179,8 +199,8 @@ class SeasonEpisodeHandler(ABC):
 
 bilibili-rater已实现三种handler, 可以直接使用:  
 
-| handler                       | 说明                    | 适用情形                      |
-|-------------------------------|-----------------------|---------------------------|
+| handler                       | 说明                     | 适用情形                      |
+|-------------------------------|------------------------|---------------------------|
 | `OnlyNumberHandler.handler`   | 简介第一行, 只使用数字来标注“季-集”信息 | 简介第一行为"3-2","10-5","6-14" |
 | `NormalLetterHandler.handler` | 简介第一行, 使用"S"和"E"字母来标注  | "S08E12","S1E09","S13E15" |
 | `DotHandler.handler`          | 简介第一行, 使用"."来分割"季-集"信息 | "1.2","8.5","14.3"        |  
@@ -196,14 +216,14 @@ import asyncio
 
 # 继承SeasonEpisodeHandler
 class MyCustomHandler(bilibili_rater.SeasonEpisodeHandler): 
-    # 实现handle方法
+    # 实现自定义的handle方法
     @staticmethod
     def handle(desc: str) -> tuple[int, int]:
       # 处理逻辑
       #
       #
       if True:
-          # 成功返回结果
+          # 成功返回结果 季号, 集号
           return 3,6
       else:
           # 失败返回0,0
@@ -218,7 +238,8 @@ credential = Credential(
     dedeuserid="",
 )
 
-fetcher1 = bilibili_rater.OmdbFetcher(api_key="myapikey",is_show_title=True) #  是否显示集标题
+fetcher_direct = bilibili_rater.DirectFetcher(is_show_ranking=True,is_show_title=True)
+fetcher_omdb = bilibili_rater.OmdbFetcher(api_key="xxxxx",is_show_title=True)
 
 job = bilibili_rater.BilibiliRater(
     uploader_uid=591331248,  # up主uid
@@ -226,7 +247,7 @@ job = bilibili_rater.BilibiliRater(
     handler=MyCustomHandler.handle,  # “季-集”信息的解包方式
     resource_id="tt0397306",  # 根节目的imdb编号
     resource_cn_name="美国老爹",  #  最终显示在评论中的节目中文名
-    imdb_fetchers=[fetcher1],  # 使用的imdb信息获取器 目前仅支持omdbapi
+    imdb_fetchers=[fetcher_direct, fetcher_omdb],  
 )
 
 asyncio.run(job.run())
