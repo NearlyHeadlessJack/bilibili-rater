@@ -46,6 +46,7 @@ class DirectFetcher(ImdbFetcher):
                 if _episode.episode == episode:
                     break
                 idx += 1
+            logging.info(f"本集排名为 {idx}/{season_episodes_num}")
             return {
                 "title": requested_episode_title,
                 "rating": requested_episode_rating,
