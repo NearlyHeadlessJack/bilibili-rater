@@ -16,7 +16,7 @@ import os
 import logging
 import datetime
 from pathlib import Path
-from ._internal.imdb.fetch_imdb import ImdbFetcher, OmdbFetcher
+from ._internal.imdb import DirectFetcher, ImdbFetcher, OmdbFetcher
 
 try:
     _is_debug = os.environ["IS_DEBUG"]
@@ -76,6 +76,7 @@ __all__ = [
     "DotHandler",
     "NormalLetterHandler",
     "OnlyNumberHandler",
+    "DirectFetcher",
 ]
 
 __version__ = "0.1.0"

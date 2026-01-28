@@ -41,7 +41,7 @@ class BilibiliComment:
         if ranking is None:
             msg4 = ""
         else:
-            msg4 = f"本集在本季的排名为{ranking}。"
+            msg4 = f"本集评分在本季的排名为{ranking}。"
 
         if is_show_title and is_show_ranking:
             msg = msg1 + msg2 + msg3 + msg4
