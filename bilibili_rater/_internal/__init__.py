@@ -5,7 +5,3 @@
 # datetime： 2026/1/20 17:22
 # ide： PyCharm
 # file: __init__.py.py
-<<<<<<<< HEAD:bilibili_rater/_internal/__init__.py
-========
-from .fetch_imdb import ImdbFetcher as ImdbFetcher
->>>>>>>> origin/main:bilibili_rater/_internal/imdb/__init__.py
