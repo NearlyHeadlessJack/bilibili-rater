@@ -255,3 +255,23 @@ asyncio.run(job.run())
 
 ## 形参说明
 - `desc: str`, 类型为字符串, 仅包含简介第一行内容。
+
+# 开发文档（完善中）
+## 类
+### `BilibiliRater`
+`BilibiliRater`类是主类, 运行程序时, 需要实例化该类。`BilibiliRater.run()`则开始一次运行。先获取视频信息，
+如果视频BV号在缓存里则跳过本次搜刮。否则会获取简介中的“季-集”信息，然后使用获取器得到imdb信息并生成评论文本。然后再发送评论。
+
+构建`BilibiliRater`需要以下参数
+- `uploader_uid: int`
+  - up主uid
+- `credential: bilibili_api.Credential`
+  - bilibili_api中的`Credential`类，用于存储Cookie
+- `handler: SeasonEpisodeHandler.handle`
+  - 简介信息解析器
+- `resource_id: str`
+  - 根节目的imdb编号
+- `resource_cn_name: str`
+  - 节目的中文名
+- `imdb_fetchers: list[ImdbFetcher]`
+  - 列表，里面是imdb信息获取器
