@@ -18,9 +18,9 @@
 
 </div>
 
-仓库地址: https://github.com/NearlyHeadlessJack/bilibili-rater
-
-安装最新稳定版  
+仓库地址: https://github.com/NearlyHeadlessJack/bilibili-rater  
+Python>=3.10  
+安装最新稳定版    
 ```commandline
 pip install bilibili-rater
 
