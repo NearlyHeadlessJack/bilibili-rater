@@ -6,7 +6,7 @@
 
 [![PyPI - License](https://img.shields.io/pypi/l/bilibili-rater)](https://github.com/NearlyHeadlessJack/bilibili-rater/blob/main/LICENSE)
 [![PyPI - Version](https://img.shields.io/pypi/v/bilibili-rater?color=blue)](https://pypi.org/project/bilibili-rater/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/bilibili-rater)](https://pypi.org/project/bilibili-rater/)_
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/bilibili-rater)](https://pypi.org/project/bilibili-rater/)
 [![Test](https://github.com/NearlyHeadlessJack/bilibili-rater/actions/workflows/Publish.yml/badge.svg?branch=dev)](https://github.com/NearlyHeadlessJack/bilibili-rater/actions/workflows/Publish.yml)
 [![GitHub Tag](https://img.shields.io/github/v/tag/NearlyHeadlessJack/bilibili-rater)](https://github.com/NearlyHeadlessJack/bilibili-rater/tags)
 
