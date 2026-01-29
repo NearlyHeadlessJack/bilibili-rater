@@ -47,14 +47,14 @@ class BilibiliComment:
 
         try:
             if title is not None:
-                msg2 = f"本集的标题是：{title}"
+                msg2 = f"本集的标题是：{title}。"
             if ranking is not None:
                 msg4 = f"本集评分在本季的排名为{ranking}。"
             if average is not None:
                 msg5 = f"本季的平均分是{average}。"
             if median is not None:
                 msg6 = f"本季评分的中位数是{median}。"
-            msg = msg1 + msg2 + msg3 + msg4 + msg5 + msg6
+            msg = msg1 + msg2 + "\n" + msg3 + msg4 + "\n" + msg5 + msg6
             logging.info(f"准备发送评论: {msg}")
             return msg
         except Exception as e:
