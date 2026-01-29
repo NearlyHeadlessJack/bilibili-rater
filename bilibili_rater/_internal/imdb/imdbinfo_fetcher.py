@@ -40,7 +40,7 @@ class DirectFetcher(ImdbFetcher):
         logging.info(
             f"找到目标资源信息, 本集标题为{requested_episode_title}, 本集评分为{requested_episode_rating}"
         )
-        result: Dict[str, Optional[str]] = {"title": None, "rating": requested_episode_rating, "ranking": None,
+        result: Dict[str, Optional[str]] = {"title": None, "rating": f'requested_episode_rating', "ranking": None,
                                             "average": None, "median": None}
 
         sorted_season= []
@@ -69,7 +69,7 @@ class DirectFetcher(ImdbFetcher):
             for idx, epi in enumerate(sorted_season):
                 if idx == mid:
                     logging.info(f"本季评分中位数: {epi.rating}")
-                    result["median"] = epi.rating
+                    result["median"] = f'{epi.rating}'
                     break
 
         return result
