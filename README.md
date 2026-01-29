@@ -46,6 +46,7 @@ bilibili-rater 适用于在B站搬运的美剧、动画等视频下, 按预置�
 ## Feature
 - 自定义“季-集”信息的爬取方式, 可通过视频简介的固定模式来获取。
 - 可以获取当期节目在整季中的评分排名。
+- 可以获取本季平均分和评分中位数。
 - 基于[bilibili-api](https://github.com/Nemo2011/bilibili-api)开发, 对B站的访问高可靠性。
 - 提供多种imdb数据获取方式, 支持使用[imdbinfo](https://github.com/tveronesi/imdbinfo)直接从imdb网站进行抓取, 也支持
 使用[omdbapi](http://www.omdbapi.com/)从第三方数据库获取imdb评分信息。
@@ -64,7 +65,8 @@ bilibili-rater 适用于在B站搬运的美剧、动画等视频下, 按预置�
     + 是的, 首先从b站视频获取到“季-集”信息后, 会使用脚本中提供的抓取器(`fetcher`), 自动获取imdb信息。
 + 可以使用豆瓣评分吗？
     + 不可以, 因为豆瓣没有单集评分功能。
-
++ omdbapi和直接获取imdb的信息有什么区别？
+    + omdbapi胜在稳定，不受制于imdb可能出现的反爬虫策略更新。但是omdbapi方式无法获取排名、平均分和中位数信息，且评分数据并不是最新的。
 # 使用教程与示例
 ## 1. 确定你要抓取的up主与节目信息
 up主通过B站数字`uid`确定, 节目信息通过imdb编号确定。  
