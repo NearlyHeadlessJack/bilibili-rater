@@ -24,8 +24,8 @@ Python>=3.10
 ```commandline
 pip install bilibili-rater
 
-// 使用清华镜像加速
-pip install -i https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple bilibili-rater
+// 使用阿里云镜像加速
+pip install -i https://mirrors.aliyun.com/pypi/simple bilibili-rater
 ```
 安装开发版本  
 [![PyPI - Version](https://img.shields.io/pypi/v/bilibili-rater?pypiBaseUrl=https%3A%2F%2Ftest.pypi.org&label=TestPyPI)](https://test.pypi.org/project/bilibili-rater/)
