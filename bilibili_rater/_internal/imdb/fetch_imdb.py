@@ -25,7 +25,6 @@ def omdb_get_imdb_rating_no_ranking(
     :return: 评分信息及标题信息(如需要)
     """
 
-
     url = f"http://www.omdbapi.com/?apikey={api}&i={imdb_id}&Season={str(season)}"
     response = requests.get(url).json()
 
@@ -34,7 +33,7 @@ def omdb_get_imdb_rating_no_ranking(
         "rating": None,
         "ranking": None,
         "average": None,
-        "median": None
+        "median": None,
     }
 
     for episode in response["Episodes"]:
@@ -87,11 +86,18 @@ def omdb_get_imdb_rating_no_ranking(
 
 
 class ImdbFetcher(ABC):
-    def __init__(self, is_show_ranking=False, is_show_title=False, is_show_average=False,is_show_median=False):
+    def __init__(
+        self,
+        is_show_ranking=False,
+        is_show_title=False,
+        is_show_average=False,
+        is_show_median=False,
+    ):
         self.is_show_title = is_show_title
         self.is_show_ranking = is_show_ranking
         self.is_show_average = is_show_average
         self.is_show_median = is_show_median
+
     def fetch(self, resource_id: str, season: int, episode: int):
         pass
 
@@ -103,7 +109,12 @@ class OmdbFetcher(ImdbFetcher):
         :param api_key: omdb的api key
         :param is_show_title: 是否获取本集标题
         """
-        super().__init__(is_show_ranking=False, is_show_title=False,is_show_median=False,is_show_average=False)
+        super().__init__(
+            is_show_ranking=False,
+            is_show_title=False,
+            is_show_median=False,
+            is_show_average=False,
+        )
         self.api_key = api_key
 
     def fetch(self, resource_id: str, season: int, episode: int):

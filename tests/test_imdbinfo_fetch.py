@@ -13,7 +13,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(result["median"], None)
 
     def test_imdbinfo_all_fields(self):
-        fetcher = DirectFetcher(True,True,True,True)
+        fetcher = DirectFetcher(True, True, True, True)
         result = fetcher.fetch(resource_id="tt0397306", season=2, episode=1)
         self.assertEqual(str(result["rating"]), "7.7")
         self.assertEqual(result["title"], "Camp Refoogee")

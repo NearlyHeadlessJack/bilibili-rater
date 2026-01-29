@@ -32,7 +32,6 @@ class BilibiliComment:
         average=None,
         median=None,
     ) -> str:
-
         # 季-集
         msg1 = f"本集是《{self.cn_name}》第{s}季，第{e}集。"
         # 标题
@@ -61,7 +60,6 @@ class BilibiliComment:
         except Exception as e:
             logging.error(f"发生错误:{e}")
             raise DescHandlerError(f"准备评论文本时发生错误:{e}")
-
 
     async def post_comment(self, bvid: str, msg: str, cache: Cache):
         logging.info("正在发送评论")
