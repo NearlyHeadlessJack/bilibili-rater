@@ -40,13 +40,9 @@ class DirectFetcher(ImdbFetcher):
         logging.info(
             f"找到目标资源信息, 本集标题为{requested_episode_title}, 本集评分为{requested_episode_rating}"
         )
-        result: Dict[str, Optional[str]] = {
-            "title": None,
-            "rating": None,
-            "ranking": None,
-            "average": None,
-            "median": None
-        }
+        result: Dict[str, Optional[str]] = {"title": None, "rating": requested_episode_rating, "ranking": None,
+                                            "average": None, "median": None}
+
         sorted_season= []
         if self.is_show_title:
             result["title"] = requested_episode_title
