@@ -16,6 +16,7 @@ class DirectFetcher(ImdbFetcher):
         self,
         is_show_ranking=False,
         is_show_title=False,
+        is_show_release_date=False,
         is_show_average=False,
         is_show_median=False,
     ):
@@ -27,27 +28,35 @@ class DirectFetcher(ImdbFetcher):
         :param is_show_average: 是否获取本季平均评分
         """
         super().__init__(
-            is_show_ranking, is_show_title, is_show_average, is_show_median
+            is_show_ranking,
+            is_show_title,
+            is_show_release_date,
+            is_show_average,
+            is_show_median,
         )
         self.is_show_title = is_show_title
+        self.is_show_release_date = is_show_release_date
         self.is_show_ranking = is_show_ranking
         self.is_show_median = is_show_median
         self.is_show_average = is_show_average
 
-    def fetch(self, resource_id: str, season: int, episode: int):
+    def fetch(
+        self, resource_id: str, season: int, episode: int
+    ) -> Dict[str, Optional[str]]:
         logging.info(
-            f"正在获取IMDB评分，\nIMDB ID：{resource_id}，\n季号：{season}，集号：{episode}，\n显示标题：{self.is_show_title},\n显示排名:{self.is_show_ranking},\n显示平均分:{self.is_show_average},\n显示中位数:{self.is_show_median}"
+            f"正在获取IMDB评分，\nIMDB ID：{resource_id}，\n季号：{season}，集号：{episode}，\n显示标题：{self.is_show_title},\n显示首播日期:{self.is_show_release_date},\n显示排名:{self.is_show_ranking},\n显示平均分:{self.is_show_average},\n显示中位数:{self.is_show_median}"
         )
         resource = get_movie(resource_id)
         resource_season = get_season_episodes(resource.imdb_id, season=season).episodes
         season_episodes_num = len(resource_season)
         requested_episode = resource_season[episode - 1]
-        requested_episode_rating, requested_episode_title = (
+        requested_episode_rating, requested_episode_title, requested_release_date = (
             requested_episode.rating,
             requested_episode.title,
+            requested_episode.release_date,
         )
         logging.info(
-            f"找到目标资源信息, 本集标题为{requested_episode_title}, 本集评分为{requested_episode_rating}"
+            f"找到目标资源信息, 本集标题为{requested_episode_title}, 本集评分为{requested_episode_rating}, 本季首播于{requested_release_date}"
         )
         result: Dict[str, Optional[str]] = {
             "title": None,
@@ -55,11 +64,14 @@ class DirectFetcher(ImdbFetcher):
             "ranking": None,
             "average": None,
             "median": None,
+            "release_date": None,
         }
 
         sorted_season = []
         if self.is_show_title:
             result["title"] = requested_episode_title
+        if self.is_show_release_date:
+            result["release_date"] = requested_release_date
         if self.is_show_ranking or self.is_show_average or self.is_show_median:
             sorted_season = sorted(
                 resource_season, key=lambda x: x.rating, reverse=True

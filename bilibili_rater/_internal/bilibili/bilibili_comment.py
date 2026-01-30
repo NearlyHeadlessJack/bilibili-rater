@@ -28,6 +28,7 @@ class BilibiliComment:
         e: int,
         rate: str,
         title=None,
+        release_date=None,
         ranking=None,
         average=None,
         median=None,
@@ -44,6 +45,8 @@ class BilibiliComment:
         msg5 = ""
         # 中位数
         msg6 = ""
+        # 首播日期
+        msg7 = ""
 
         try:
             if title is not None:
@@ -54,7 +57,9 @@ class BilibiliComment:
                 msg5 = f"本季的平均分是{average}。"
             if median is not None:
                 msg6 = f"本季评分的中位数是{median}。"
-            msg = msg1 + msg2 + "\n" + msg3 + msg4 + "\n" + msg5 + msg6
+            if release_date is not None:
+                msg7 = f"本集首播于{release_date}。"
+            msg = msg1 + msg2 + msg7 + "\n" + msg3 + msg4 + "\n" + msg5 + msg6
             logging.info(f"准备发送评论: {msg}")
             return msg
         except Exception as e:

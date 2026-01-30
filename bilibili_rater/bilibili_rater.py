@@ -94,6 +94,7 @@ class BilibiliRater:
                     e=episode,
                     rate=result["rating"],
                     title=result["title"],
+                    release_date=result["release_date"],
                     ranking=result["ranking"],
                     average=result["average"],
                     median=result["median"],
