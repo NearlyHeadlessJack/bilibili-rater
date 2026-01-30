@@ -28,39 +28,43 @@ class BilibiliComment:
         e: int,
         rate: str,
         title=None,
+        release_date=None,
         ranking=None,
-        is_show_title=False,
-        is_show_ranking=False,
+        average=None,
+        median=None,
     ) -> str:
+        # 季-集
         msg1 = f"本集是《{self.cn_name}》第{s}季，第{e}集。"
-        if title is None:
-            msg2 = ""
-        else:
-            msg2 = f"标题为{title}。"
+        # 标题
+        msg2 = ""
+        # 评分
         msg3 = f"本集imdb评分为{rate}。"
-        if ranking is None:
-            msg4 = ""
-        else:
-            msg4 = f"本集评分在本季的排名为{ranking}。"
+        # 排名
+        msg4 = ""
+        # 平均分
+        msg5 = ""
+        # 中位数
+        msg6 = ""
+        # 首播日期
+        msg7 = ""
 
-        if is_show_title and is_show_ranking:
-            msg = msg1 + msg2 + msg3 + msg4
+        try:
+            if title is not None:
+                msg2 = f"本集的标题是：{title}。"
+            if ranking is not None:
+                msg4 = f"本集评分在本季的排名为{ranking}。"
+            if average is not None:
+                msg5 = f"本季的平均分是{average}。"
+            if median is not None:
+                msg6 = f"本季评分的中位数是{median}。"
+            if release_date is not None:
+                msg7 = f"本集首播于{release_date}。"
+            msg = msg1 + msg2 + msg7 + "\n" + msg3 + msg4 + "\n" + msg5 + msg6
             logging.info(f"准备发送评论: {msg}")
             return msg
-        elif is_show_title and not is_show_ranking:
-            msg = msg1 + msg2 + msg3
-            logging.info(f"准备发送评论: {msg}")
-            return msg
-        elif not is_show_title and is_show_ranking:
-            msg = msg1 + msg3 + msg4
-            logging.info(f"准备发送评论: {msg}")
-            return msg
-        elif not is_show_title and not is_show_ranking:
-            msg = msg1 + msg3
-            logging.info(f"准备发送评论: {msg}")
-            return msg
-        logging.error("评论准备错误")
-        raise DescHandlerError("评论准备错误")
+        except Exception as e:
+            logging.error(f"发生错误:{e}")
+            raise DescHandlerError(f"准备评论文本时发生错误:{e}")
 
     async def post_comment(self, bvid: str, msg: str, cache: Cache):
         logging.info("正在发送评论")
