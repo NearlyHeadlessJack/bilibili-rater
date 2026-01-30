@@ -79,4 +79,3 @@ __all__ = [
     "DirectFetcher",
 ]
 
-__version__ = "0.1.0"

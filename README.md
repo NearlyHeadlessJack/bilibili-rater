@@ -47,6 +47,7 @@ bilibili-rater 适用于在B站搬运的美剧、动画等视频下, 按预置�
 - 自定义“季-集”信息的爬取方式, 可通过视频简介的固定模式来获取。
 - 可以获取当期节目在整季中的评分排名。
 - 可以获取本季平均分和评分中位数。
+- 可以获取本集的首播时间。
 - 基于[bilibili-api](https://github.com/Nemo2011/bilibili-api)开发, 对B站的访问高可靠性。
 - 提供多种imdb数据获取方式, 支持使用[imdbinfo](https://github.com/tveronesi/imdbinfo)直接从imdb网站进行抓取, 也支持
 使用[omdbapi](http://www.omdbapi.com/)从第三方数据库获取imdb评分信息。
@@ -116,8 +117,13 @@ credential = Credential(
 )
 
 
-fetcher_direct = bilibili_rater.DirectFetcher(is_show_ranking=True,is_show_title=True)
-fetcher_omdb = bilibili_rater.OmdbFetcher(api_key="xxxxx",is_show_title=True)
+fetcher_omdb = bilibili_rater.OmdbFetcher(api_key="xxxx",
+                                          is_show_title=True)
+fetcher_direct = bilibili_rater.DirectFetcher(is_show_ranking=True,
+                                              is_show_title=True,
+                                              is_show_release_date=True,
+                                              is_show_average=True,
+                                              is_show_median=True)
 
 
 job = bilibili_rater.BilibiliRater(
@@ -240,8 +246,13 @@ credential = Credential(
     dedeuserid="",
 )
 
-fetcher_direct = bilibili_rater.DirectFetcher(is_show_ranking=True,is_show_title=True)
-fetcher_omdb = bilibili_rater.OmdbFetcher(api_key="xxxxx",is_show_title=True)
+fetcher_omdb = bilibili_rater.OmdbFetcher(api_key="xxxx",
+                                          is_show_title=True)
+fetcher_direct = bilibili_rater.DirectFetcher(is_show_ranking=True,
+                                              is_show_title=True,
+                                              is_show_release_date=True,
+                                              is_show_average=True,
+                                              is_show_median=True)
 
 job = bilibili_rater.BilibiliRater(
     uploader_uid=591331248,  # up主uid
