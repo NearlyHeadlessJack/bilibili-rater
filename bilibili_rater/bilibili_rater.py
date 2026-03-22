@@ -94,9 +94,10 @@ class BilibiliRater:
                     e=episode,
                     rate=result["rating"],
                     title=result["title"],
+                    release_date=result["release_date"],
                     ranking=result["ranking"],
-                    is_show_title=fetcher.is_show_title,
-                    is_show_ranking=fetcher.is_show_ranking,
+                    average=result["average"],
+                    median=result["median"],
                 )
                 return msg
             except ImdbItemNotFound:
