@@ -75,7 +75,7 @@ wheels = [
 
 [[package]]
 name = "bilibili-rater"
-version = "0.1.3"
+version = "0.2.1"
 source = { editable = "." }
 dependencies = [
     { name = "bilibili-api-python" },
