@@ -75,7 +75,7 @@ wheels = [
 
 [[package]]
 name = "bilibili-rater"
-version = "0.2.1"
+version = "0.2.2"
 source = { editable = "." }
 dependencies = [
     { name = "bilibili-api-python" },
@@ -506,7 +506,7 @@ wheels = [
 
 [[package]]
 name = "imdbinfo"
-version = "0.8.3"
+version = "0.8.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
@@ -517,9 +517,9 @@ dependencies = [
     { name = "niquests" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/73/2d/88c1c585abcb9f90e101bfe5956ee29aefacc80f01b25e3cf4b2e4fdab88/imdbinfo-0.8.3.tar.gz", hash = "sha256:545fc55ea510eff4c74e9ff0b289198cbd738981ef80863b0e07a8d345ab36c3", size = 709157, upload-time = "2026-04-10T22:38:53.769Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/dc/45/a2d2aec4863b9d6a7340c904be49f3e3b304b7bb126e6e299be7c50062ff/imdbinfo-0.8.4.tar.gz", hash = "sha256:8cedb3ad1cb72cd30a1a13f6b04587880f68085f8945af4ea7772f929e626f61", size = 709530, upload-time = "2026-05-09T10:24:41.006Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ae/d3/9fba812602ec3d0a929ccaa8f070fb8af2e290a3d431e21223d6199a754f/imdbinfo-0.8.3-py3-none-any.whl", hash = "sha256:287ed544fc5cd008a1b03eed5c1f4b2f90d610981efba965f3038c0fafec7cbb", size = 38926, upload-time = "2026-04-10T22:38:52.775Z" },
+    { url = "https://files.pythonhosted.org/packages/d3/c9/c4dba3574a924afd2e710faea8f1f75f72795ffa554697320a33cd7c61ea/imdbinfo-0.8.4-py3-none-any.whl", hash = "sha256:3134e706ca4a1534511742fcea2def11dd50e7bd7f05134c311faad405dead5e", size = 39346, upload-time = "2026-05-09T10:24:40.047Z" },
 ]
 
 [[package]]
